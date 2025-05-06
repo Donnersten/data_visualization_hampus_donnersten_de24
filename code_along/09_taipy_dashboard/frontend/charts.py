@@ -1,0 +1,29 @@
+import plotly.express as px
+def create_municipality_bar(df,x,y, **options):
+    df["Ansökta_label"] = df["Ansökta utbildningar"].apply(lambda row: " "*2 + f"{row}" )
+    
+    fig = px.bar(df,x,y)
+    
+    fig.update_layout(
+        plot_bgcolor="white",
+        yaxis=dict(
+            autorange="reversed",
+            ticklabelposition="outside left",
+            showline=True,
+            linecolor="lightgray",
+            title=dict(text=f"<b>{options.get('ylable')}</b>")
+            ),
+        xaxis=dict(
+            linecolor="lightgray",
+            showticklabels=False,
+            title=f"<b>{options.get('xlable')}</b>"
+            ),
+    )
+
+    fig.update_traces(
+        textposition="outside",
+        hovertemplate="<b>%{y}</b><br>Ansökta utbildningar: %{x}",
+    )
+
+    return fig
+
