@@ -1,28 +1,8 @@
 import taipy.gui.builder as tgb
 from taipy.gui import Gui
-from utils.constans import DATA_DIRECTORY
-import pandas as pd
+from backend.data_processing import filter_df, df
 from frontend.charts import create_municipality_bar
-
-df = pd.read_excel(DATA_DIRECTORY / "resultat-ansokningsomgang-2024.xlsx", sheet_name="Tabell 3", skiprows=5)
-
-
-def filter_df(df,educational_area="Data/IT"):
-    return df.query("Utbildningsområde == @educational_area")["Kommun"].value_counts().reset_index().rename({"count": "Ansökta utbildningar"}, axis=1)
-
-def filter_data(state):
-    df_municipality = filter_df(
-        state.df, educational_area=state.selected_educational_area
-    )
-
-    state.municipality_chart = create_municipality_bar(
-        df_municipality.head(state.number_municipalites),
-         ylable= "KOMMUN",
-         xlable="# ANSÖKTA UTBILDNINGAR"
-    )
-
-    state.educational_area_title = state.selected_educational_area
-    state.municipalites_title = state.number_municipalites
+from backend.update import filter_data
 
 
 df_municipality = filter_df(df)
