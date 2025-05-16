@@ -29,7 +29,7 @@ def reset_game(state):
 
 
 def play(state):    
-        guess = state.guess.replace(" ","").lower()
+        guess = state.guess.replace(" ","").replace(",","").replace("?","").lower()
         if guess == guess[::-1] and guess != "":
             state.start_score -= 1
             state.result_text = "Det är en palindrome"
